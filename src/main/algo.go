@@ -47,10 +47,13 @@ func (g *GraphAlgo) Match(players []Player) [][]string {
 		}
 	}
 	matchSize := len(compose) / 2
-	g.backtrace(compose, graph, make([][]Team, 0), 0, matchSize, 0)
+	g.backtrace(compose, graph, make([][]Team, matchSize), 0, matchSize, 0)
 	//输出结果
 	//TODO:排序
-	r := make([][]string, 0, matchSize)
+	r := make([][]string, matchSize)
+	for idx, m := range g.res {
+		r[idx] = []string{mp[m[0].P1].Name, mp[m[0].P2].Name, mp[m[1].P1].Name, mp[m[1].P2].Name}
+	}
 	return r
 }
 
