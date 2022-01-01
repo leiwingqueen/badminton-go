@@ -18,7 +18,7 @@ FROM alpine:3.13
 WORKDIR /app
 
 # 将构建产物/app/main拷贝到运行时的工作目录中
-COPY --from=builder /app/main /app/index.html /app/
+COPY --from=builder /app/main /app/
 
 # 执行启动命令
 CMD ["/app/main"]
