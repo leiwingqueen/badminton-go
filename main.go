@@ -17,5 +17,6 @@ func main() {
 	http.HandleFunc("/api/count", service.CounterHandler)
 
 	http.HandleFunc("/match/list", service.MatchListHandler)
+	http.HandleFunc("/match/create", service.MatchCreateHandler)
 	log.Fatal(http.ListenAndServe(":80", nil))
 }
