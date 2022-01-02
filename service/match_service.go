@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -25,11 +26,14 @@ func MatchListHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func MatchCreateHandler(w http.ResponseWriter, r *http.Request) {
-	name, startTime, err := getCreateParam(r)
-	if err != nil {
-		responseErr(w, err)
+	name := r.Form.Get("name")
+	t := r.Form.Get("startTime")
+	if len(name) == 0 || len(t) == 0 {
+		responseErr(w, fmt.Errorf("param err"))
 		return
 	}
+	layout := "2006-01-02 15:04:05"
+	startTime, _ := time.Parse(layout, t)
 	matchId, err := dao.MatchDaoIns.Create(0, name, startTime)
 	if err != nil {
 		responseErr(w, err)
@@ -58,42 +62,15 @@ func response(w http.ResponseWriter, res *JsonResult) {
 }
 
 func getListParam(r *http.Request) (int, int) {
-	decoder := json.NewDecoder(r.Body)
-	body := make(map[string]interface{})
-	if err := decoder.Decode(&body); err != nil {
-		return 1, DefPageSize
-	}
-	defer r.Body.Close()
+	p := r.Form.Get("page")
+	s := r.Form.Get("size")
 	page := 1
 	size := DefPageSize
-	if v, ok := body["page"]; ok {
-		page = v.(int)
+	if len(p) > 0 {
+		page, _ = strconv.Atoi(p)
 	}
-	if v, ok := body["size"]; ok {
-		size = v.(int)
+	if len(s) > 0 {
+		size, _ = strconv.Atoi(s)
 	}
 	return page, size
-}
-
-func getCreateParam(r *http.Request) (string, time.Time, error) {
-	decoder := json.NewDecoder(r.Body)
-	body := make(map[string]interface{})
-	if err := decoder.Decode(&body); err != nil {
-		return "", time.Now(), err
-	}
-	defer r.Body.Close()
-	name := ""
-	startTime := time.Now()
-	if v, ok := body["name"]; !ok || v == "" {
-		return "", time.Now(), fmt.Errorf("name err")
-	} else {
-		name = v.(string)
-	}
-	if v, ok := body["startTime"]; !ok {
-		return "", time.Now(), fmt.Errorf("startTime err")
-	} else {
-		layout := "2006-01-02 15:04:05"
-		startTime, _ = time.Parse(layout, v.(string))
-	}
-	return name, startTime, nil
 }
