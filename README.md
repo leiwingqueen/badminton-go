@@ -110,8 +110,9 @@ CREATE TABLE `tb_user`
     `uid`       		bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
     `openId`      	varchar(256) NOT NULL DEFAULT '' COMMENT 'openId',
     `name`      		varchar(256) NOT NULL DEFAULT '' COMMENT '昵称',
-    `createTime`    timestamp NOT NULL DEFAULT '0' COMMENT '开始时间',
-    `updateTime`    timestamp NOT NULL DEFAULT '0' COMMENT '更新时间',
+    `logo`      		varchar(512) NOT NULL DEFAULT '' COMMENT 'logo',
+    `createAt`    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updateAt`    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`uid`),
   	unique key uniq_openId(openId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
