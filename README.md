@@ -98,9 +98,9 @@ CREATE TABLE `tb_match`
 (
     `matchId`       bigint(20) NOT NULL AUTO_INCREMENT COMMENT '比赛ID',
     `name`      		varchar(256) NOT NULL DEFAULT '' COMMENT '名称',
-    `startTime`     timestamp NOT NULL DEFAULT '0' COMMENT '比赛开始',
-    `createTime`    timestamp NOT NULL DEFAULT '0' COMMENT '开始时间',
-    `updateTime`    timestamp NOT NULL DEFAULT '0' COMMENT '更新时间',
+    `startAt`     timestamp NOT NULL DEFAULT '0' COMMENT '比赛开始',
+    `createAt`    timestamp NOT NULL DEFAULT '0' COMMENT '开始时间',
+    `updateAt`    timestamp NOT NULL DEFAULT '0' COMMENT '更新时间',
     `status`        tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
     PRIMARY KEY (`matchId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='比赛列表';

@@ -1,11 +1,11 @@
 package main
 
 import (
+	"badminton-go/db"
+	"badminton-go/service"
 	"fmt"
 	"log"
 	"net/http"
-	"badminton-go/db"
-	"badminton-go/service"
 )
 
 func main() {
@@ -16,5 +16,6 @@ func main() {
 	http.HandleFunc("/", service.IndexHandler)
 	http.HandleFunc("/api/count", service.CounterHandler)
 
+	http.HandleFunc("/match/list", service.MatchListHandler)
 	log.Fatal(http.ListenAndServe(":80", nil))
 }
