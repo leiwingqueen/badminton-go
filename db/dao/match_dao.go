@@ -29,7 +29,7 @@ func (dao *MatchDao) Create(uid int64, name string, startTime time.Time) (int64,
 	dto.StartAt = startTime
 	dto.CreateAt = now
 	dto.UpdateAt = now
-	err = cli.Table(tbMatch).Save(dto).Error
+	err = cli.Table(tbMatch).Create(dto).Error
 	return dto.MatchId, err
 }
 
