@@ -18,5 +18,6 @@ func main() {
 
 	http.HandleFunc("/match/list", service.MatchListHandler)
 	http.HandleFunc("/match/create", service.MatchCreateHandler)
+	http.HandleFunc("/match/join", service.MatchJoinHandler)
 	log.Fatal(http.ListenAndServe(":80", nil))
 }

@@ -47,6 +47,26 @@ func MatchCreateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func MatchJoinHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	uid := r.Form.Get("uid")
+	matchId := r.Form.Get("matchId")
+	if len(uid) == 0 || len(matchId) == 0 {
+		responseErr(w, fmt.Errorf("param err"))
+		return
+	}
+	fmt.Printf("join[start]...uid:%s,matchId:%s\n", uid, matchId)
+	p1, _ := strconv.ParseInt(uid, 10, 64)
+	p2, _ := strconv.ParseInt(matchId, 10, 64)
+	err := dao.MatchUserDaoIns.Create(p1, p2)
+	if err != nil {
+		responseErr(w, err)
+	} else {
+		res := &JsonResult{}
+		response(w, res)
+	}
+}
+
 func responseErr(w http.ResponseWriter, err error) {
 	res := &JsonResult{}
 	res.Code = -1
