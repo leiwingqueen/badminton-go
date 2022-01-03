@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -62,15 +61,19 @@ func response(w http.ResponseWriter, res *JsonResult) {
 }
 
 func getListParam(r *http.Request) (int, int) {
-	p := r.Form.Get("page")
-	s := r.Form.Get("size")
+	decoder := json.NewDecoder(r.Body)
+	body := make(map[string]interface{})
+	if err := decoder.Decode(&body); err != nil {
+		return 1, DefPageSize
+	}
+	defer r.Body.Close()
 	page := 1
 	size := DefPageSize
-	if len(p) > 0 {
-		page, _ = strconv.Atoi(p)
+	if p, ok := body["page"]; ok {
+		page, _ = p.(int)
 	}
-	if len(s) > 0 {
-		size, _ = strconv.Atoi(s)
+	if s, ok := body["size"]; ok {
+		size, _ = s.(int)
 	}
 	return page, size
 }
