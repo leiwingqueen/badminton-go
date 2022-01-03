@@ -13,6 +13,7 @@ const DefPageSize int = 10
 // CounterHandler 计数器接口
 func MatchListHandler(w http.ResponseWriter, r *http.Request) {
 	page, size := getListParam(r)
+	fmt.Printf("list[start]...page:%d,size:%d\n", page, size)
 	res := &JsonResult{}
 	list, err := dao.MatchDaoIns.List(page, size)
 	if err != nil {
@@ -25,12 +26,14 @@ func MatchListHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func MatchCreateHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
 	name := r.Form.Get("name")
 	t := r.Form.Get("startTime")
 	if len(name) == 0 || len(t) == 0 {
 		responseErr(w, fmt.Errorf("param err"))
 		return
 	}
+	fmt.Printf("create[start]...name:%s,startTime:%s\n", name, t)
 	layout := "2006-01-02 15:04:05"
 	startTime, _ := time.Parse(layout, t)
 	matchId, err := dao.MatchDaoIns.Create(0, name, startTime)
